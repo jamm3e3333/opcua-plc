@@ -7,6 +7,7 @@ const chalk = require("chalk");
 const port = 4840;
 const endpointUri = `opc.tcp://192.168.0.190:${port}`;
 let onSwitch = false;
+
 (async () => {
     try{
         const client = OPCUAClient.create({
@@ -28,12 +29,19 @@ let onSwitch = false;
 
         //event on connecting to the server
         client.on("connected", () => {
-            console.log(`Connected to the server: ${endpointUri}`);
+            console.log(chalk.greenBright(`Connected to the server: ${endpointUri}`));
         });
 
         //create a session
         const session = await client.createSession();
         console.log(`session name ${session.name}`);
+
+        //ENDPOINTS
+        // const endpoints = await client.getEndpoints();
+        // endpoints.forEach((end) => {
+        //     console.log(end.endpointUrl);
+        //     console.log(end.server.applicationName);
+        // });
 
         //---------------------------------------------------
         //----------------------SUBSCRIPTION-----------------
@@ -49,12 +57,7 @@ let onSwitch = false;
         const parameters1 = {
             discardOldest: true,
             queueSize: 10,
-            samplingInterval: 100,
-            // filter: new DataChangeFilter({
-            //     deadbandType: DeadbandType.Absolute,
-            //     deadbandValue: 0.1,
-            //     trigger: DataChangeTrigger.StatusValueTimestamp
-            // })
+            samplingInterval: 100
         };
 
         const itemsMonitor = [
@@ -80,33 +83,11 @@ let onSwitch = false;
                 case 0:
                     if(onSwitch) {
                         console.log(data.value.value);
+                        console.log(data.sourceTimestamp.toISOString());
                     }
             };  
-            // console.log(`Changed on ${index}, data value: ${data.value.value}`)
         })
 
-        // const item1 = (await subscription.monitor(
-        //     itemMonitor1,
-        //     parameters1,
-        //     TimestampsToReturn.Both
-        // ));
-
-        // console.log(`Item 1 = ${item1.statusCode.toString()}`);
-
-        // item1.on("changed", (data) => {
-        //     console.log(data.value.value);
-        // })
-
-        
-        //---------------------------------------------------
-
-
-        // const randVar = await session.read({
-        //     nodeId: "ns=6;s=::AsGlobalPV:gi"
-        // });
-        // console.log(randVar.value.value);
-
-        
         //exit the process
         process.on('SIGINT', async () => {
             await item1.terminate();
