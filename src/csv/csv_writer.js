@@ -1,29 +1,33 @@
-const createCsvWriter = require("csv-writer").createObjectCsvWriter;
+const {writeFileSync, appendFileSync } = require("fs");
 const path = require("path");
+const chalk = require("chalk");
 
-const csvPath = path.join(__dirname, "./file.csv");
+const writeCsvFile = (name, i, value, timestamp) => {
+        let indexStr = JSON.stringify(i);
+        let valueStr = JSON.stringify(value);
+        let timestampStr = JSON.stringify(timestamp);
+        let strStr = `${indexStr}, ${valueStr}, ${timestampStr}\n`;
 
-const csvWriter = createCsvWriter({
-    path: csvPath,
-    header: [
-        {id: 'i', title: 'INDEX'},
-        {id: 'value', title: 'VALUE'}
-    ]
-});
+        if(!i) {
+            writeFileSync(path.join(__dirname, '../../CSVdata/' + name), `i, value, timestamp\n`);
+            console.log('The file with the name: ', chalk.inverse.blueBright(name.split("/")[1]), 'was created.');
+        }
+        appendFileSync(path.join(__dirname, '../../CSVdata/' + name), strStr);
+}
 
-const records = [
-    {i: 0, value: 23 },
-    {i: 1, value: 24 }
-]
+const getFileName = (subfolder, side) => {
+    const s = new Date().getSeconds();
+    const m = new Date().getMinutes();
+    const h = new Date().getHours();
+    const month = new Date().getMonth() + 1;
+    const d = new Date().getUTCDate();
+    const y = new Date().getFullYear();
 
-const getData = async () => {
-    try{
-        const data = await csvWriter.writeRecords(records);
-        console.log(data);
-    }
-    catch(err){
-        console.log(err);
-    }
+    const csvPath = `${subfolder}/${month}_${d}_${y}_${h}_${m}_${s}mqbData${side}.csv`;
+    return csvPath;
 };
 
-getData();
+module.exports = {
+    getFileName,
+    writeCsvFile
+};
