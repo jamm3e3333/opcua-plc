@@ -2,6 +2,7 @@ const  { opcSubCli } = require('./opcua_client/client.js');
 
 const port = 4840;
 const endpointUri = `opc.tcp://192.168.0.190:${port}`;
+const valuesInFile = 500;
 
 const itemsMonitor = [
     {
@@ -21,4 +22,4 @@ const parameters = {
     samplingInterval: 100
 };
 
-opcSubCli(itemsMonitor, parameters, endpointUri, 500);
+opcSubCli(itemsMonitor, parameters, endpointUri, valuesInFile);
