@@ -4,8 +4,8 @@
   "description": "opcua-plc",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon ./src/opcua_client/client.js",
-    "start": "node ./src/opcua_client/client.js"
+    "dev": "nodemon ./src/index.js",
+    "start": "node ./src/index.js"
   },
   "repository": {
     "type": "git",
@@ -20,6 +20,8 @@
   "homepage": "https://github.com/jamm3e3333/opcua-plc#readme",
   "dependencies": {
     "chalk": "^4.1.1",
+    "csv-writer": "^1.6.0",
+    "json2csv": "^5.0.6",
     "node-opcua": "^2.44.0",
     "node-opcua-file-transfer": "^2.44.0"
   }
