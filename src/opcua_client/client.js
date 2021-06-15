@@ -33,6 +33,9 @@ const opcSubCli = async (variables, params, endpoint, limit) => {
             `));
         });
 
+        client.on("connected", () => {
+            console.log(chalk.inverse.blueBright("Client connected"));
+        })
         //connecting to the endpoint
         await client.connect(endpoint);
         
