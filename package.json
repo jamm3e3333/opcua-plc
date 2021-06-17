@@ -4,8 +4,14 @@
   "description": "opcua-plc",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon ./src/index.js",
-    "start": "node ./src/index.js"
+    "dev": "nodemon index.js",
+    "start": "node index.js",
+    "build": "pkg bin"
+  },
+  "bin": "index.js",
+  "pkg": {
+    "assets": ["CSVdata/**/*", "node_modules/**/*"],
+    "targets": ["node14-win-x64"]
   },
   "repository": {
     "type": "git",

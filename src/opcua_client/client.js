@@ -70,7 +70,6 @@ const opcSubCli = async (variables, params, endpoint, limit) => {
         );
 
         monitoredItemGroup.on("changed", (monitoredItem, data, index) => {
-
             switch(index) {
                 case 1:
                     if(data.value.value){
