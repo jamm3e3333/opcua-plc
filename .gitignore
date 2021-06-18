@@ -1,8 +1,0 @@
-node_modules/
-*.exe
-CSVdata/Left/*
-CSVdata/Right/*
-
-# exception to the rule
-!CSVdata/Left/.gitkeep 
-!CSVdata/Right/.gitkeep 
